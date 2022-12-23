@@ -30,6 +30,6 @@ public partial class MainWindow : Window
 
         _ = app.MapControllers();
 
-        app.Run();
+        _=app.RunAsync();
     }
 }
