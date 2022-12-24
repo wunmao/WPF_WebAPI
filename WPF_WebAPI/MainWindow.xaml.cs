@@ -33,6 +33,9 @@ public partial class MainWindow : Window
         });
 
         var app = builder.Build();
+        app.Urls.Add("http://*:5001");
+        app.Urls.Add("https://*:5002");
+
         if (app.Environment.IsDevelopment())
         {
             _ = app.UseSwagger();
