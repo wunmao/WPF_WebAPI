@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace WPF_WebAPI;
 
@@ -16,13 +16,31 @@ public partial class MainWindow : Window
         var builder = WebApplication.CreateBuilder();
         _ = builder.Services.AddControllers();
         _ = builder.Services.AddEndpointsApiExplorer();
-        _ = builder.Services.AddSwaggerGen();
+        _ = builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1",
+                         new OpenApiInfo
+                         {
+                             Version     = "v1",
+                             Title       = "WunmaoTest API",
+                             Description = "Wunmao's Swagger Test",
+                             Contact = new OpenApiContact
+                             {
+                                 Name  = "Wunmao",
+                                 Email = "wenmao.lo@gpline.com.tw"
+                             }
+                         });
+        });
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())
         {
             _ = app.UseSwagger();
-            _ = app.UseSwaggerUI();
+            _ = app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "wunamoTest v1");
+                c.RoutePrefix = "swagger";
+            });
         }
 
         _ = app.UseHttpsRedirection();
