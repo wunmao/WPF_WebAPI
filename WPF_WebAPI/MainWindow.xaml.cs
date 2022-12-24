@@ -14,10 +14,7 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         var builder = WebApplication.CreateBuilder();
-        _ = builder.Services.AddCors(options =>
-                                     {
-                                         options.AddDefaultPolicy(policy => policy.AllowAnyOrigin());
-                                     });
+        _ = builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin()));
         _ = builder.Services.AddControllers();
         _ = builder.Services.AddEndpointsApiExplorer();
         _ = builder.Services.AddSwaggerGen(c =>
