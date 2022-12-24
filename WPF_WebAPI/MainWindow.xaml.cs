@@ -26,11 +26,7 @@ public partial class MainWindow : Window
         }
 
         _ = app.UseHttpsRedirection();
-
-        _ = app.UseAuthorization();
-
         _ = app.MapControllers();
-
-        _=app.RunAsync();
+        _ = app.RunAsync();
     }
 }
