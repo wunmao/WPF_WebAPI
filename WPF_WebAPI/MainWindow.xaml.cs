@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -12,6 +13,12 @@ public partial class MainWindow : Window
     public MainWindow() => InitializeComponent();
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        RunWebApplicationBuilder("https://*:5001", "http://*:5002");
+        RunIHostBuilder("https://*:5003", "http://*:5004");
+    }
+
+    private void RunWebApplicationBuilder(params string[] Urls)
     {
         var builder = WebApplication.CreateBuilder();
         _ = builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin()));
@@ -34,8 +41,10 @@ public partial class MainWindow : Window
                                            });
 
         var app = builder.Build();
-        app.Urls.Add("http://*:5001");
-        app.Urls.Add("https://*:5002");
+        foreach (var url in Urls)
+        {
+            app.Urls.Add(url);
+        }
 
         if (app.Environment.IsDevelopment())
         {
@@ -43,7 +52,7 @@ public partial class MainWindow : Window
             _ = app.UseSwaggerUI(c =>
                                  {
                                      c.SwaggerEndpoint("/swagger/v1/swagger.json", "wunamoTest v1");
-                                     c.RoutePrefix = "swagger";
+                                     c.RoutePrefix = string.Empty;
                                  });
         }
 
@@ -52,5 +61,18 @@ public partial class MainWindow : Window
         _ = app.UseAuthorization();
         _ = app.UseCors();
         _ = app.RunAsync();
+    }
+
+    private void RunIHostBuilder(params string[] Urls)
+    {
+        var builder = Host.CreateDefaultBuilder()
+                          .ConfigureWebHostDefaults(webBuilder =>
+                                                    {
+                                                        _ = webBuilder.UseKestrel();
+                                                        _ = webBuilder.UseUrls(Urls);
+                                                        _ = webBuilder.UseStartup<Startup>();
+                                                    });
+
+        _ = builder.Build().RunAsync();
     }
 }
