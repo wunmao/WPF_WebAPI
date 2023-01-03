@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_WebAPI", "WPF_WebAPI\WPF_WebAPI.csproj", "{F87C7C7D-1E73-463C-B800-4968D774EC39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF_WebAPI", "WPF_WebAPI\WPF_WebAPI.csproj", "{F87C7C7D-1E73-463C-B800-4968D774EC39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{9A64160B-60CD-4E2D-BA08-FDF706AD57F6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
