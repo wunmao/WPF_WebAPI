@@ -18,7 +18,7 @@ public partial class MainWindow : Window
         RunIHostBuilder("https://*:5003", "http://*:5004");
     }
 
-    private void RunWebApplicationBuilder(params string[] Urls)
+    private static void RunWebApplicationBuilder(params string[] urls)
     {
         var builder = WebApplication.CreateBuilder();
         _ = builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin()));
@@ -41,7 +41,7 @@ public partial class MainWindow : Window
                                            });
 
         var app = builder.Build();
-        foreach (var url in Urls)
+        foreach (var url in urls)
         {
             app.Urls.Add(url);
         }
@@ -63,13 +63,13 @@ public partial class MainWindow : Window
         _ = app.RunAsync();
     }
 
-    private void RunIHostBuilder(params string[] Urls)
+    private static void RunIHostBuilder(params string[] urls)
     {
         var builder = Host.CreateDefaultBuilder()
                           .ConfigureWebHostDefaults(webBuilder =>
                                                     {
                                                         _ = webBuilder.UseKestrel();
-                                                        _ = webBuilder.UseUrls(Urls);
+                                                        _ = webBuilder.UseUrls(urls);
                                                         _ = webBuilder.UseStartup<Startup>();
                                                     });
 
